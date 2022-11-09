@@ -2,15 +2,20 @@ const User = require('../models/User');
 
 //using jwt for login authentication
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
 
+
+//Password Hashing
 
 module.exports.addUser = async (req, res) => {
     try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password,salt)
       
         const user = await User.create({
           name:req.body.name,
           phone:req.body.phone,
-          password:req.body.password
+          password:hashedPassword
         });
       
         user.save();
@@ -30,7 +35,9 @@ module.exports.addUser = async (req, res) => {
   module.exports.login = async(req,res)=>{
     try{
         let user = await User.findOne({ phone:req.body.phone });
-      if (!user || user.password != req.body.password) {
+        const validPass = await bcrypt.compare(req.body.password,user.password);
+
+      if (!user || !validPass) {
         return res.json(402, {
           message: "Login Details are Invalid ",
           success : false
