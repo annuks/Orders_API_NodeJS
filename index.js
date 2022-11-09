@@ -13,12 +13,8 @@ app.use(express.json());
 app.use(passport.initialize());
 const bodyparser = require('body-parser');
 
+app.use('/',require('./routes'));
 
-
-app.get('/',(req,res)=>{
-    res.send("Home Page");
-    app.use('/',require('./routes'));
-});
 app.listen(port, function(err){
     if(err){
         console.log("Error while Server Starting--");

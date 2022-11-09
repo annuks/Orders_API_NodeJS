@@ -1,4 +1,4 @@
-/*
+
 const passport = require("passport");
 //using java web token for authorisation 
 const JWTStrategy =require ("passport-jwt").Strategy;
@@ -8,7 +8,7 @@ const User = require ('../models/User')
 //authorising for generating token
 let opts = {
     jwtFromRequest:ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey:'equivotask',
+    secretOrKey:'vooshassignment',
 }
 passport.use(new JWTStrategy(opts, function(jwtPayLoad,done){
     User.findById(jwtPayLoad._id, function(err,user){
@@ -27,4 +27,3 @@ passport.use(new JWTStrategy(opts, function(jwtPayLoad,done){
 }))
 module.exports=passport;
 
-*/
